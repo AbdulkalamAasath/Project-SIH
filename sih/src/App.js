@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Login from './Components/Login'
+import { UseJPContext } from './Hooks/UseJPContext'
+import { BrowserRouter, Route, Routes ,Navigate} from 'react-router-dom'
+import { UseJSContext } from './Hooks/UseJSContext'
+import { UseJSLogout } from './Hooks/UseJSLogout'
+import { UseJPLogout } from './Hooks/UseJPLogut'
 
-function App() {
+const App = () => {
+  const {JS} = UseJSContext()
+  const {JP} = UseJPContext()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <BrowserRouter>
+        <Routes>
+        <Route path='/' element={!JP && !JS ? <Login /> : <Navigate to='/JPpage' />}></Route>
+        <Route path='/JPpage' element={JP ? <h1>Job Provider Login successfull</h1> : <Navigate to='/JSpage'/>}></Route>
+        <Route path='/JSpage' element={JP ? <h1>Job seeker Login successfull</h1> : <Navigate to='/JSpage'/>}></Route>
+        </Routes>
+      </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
